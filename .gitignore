@@ -1,0 +1,33 @@
+  
+# OS
+#
+# Ref: https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
+# Ref: https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
+# Ref: https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
+.DS_STORE
+**/.DS_Store
+Thumbs.db
+audit.txt
+
+# Editors
+#
+# Ref: https://github.com/github/gitignore/blob/master/Global
+# Ref: https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
+# Ref: https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
+.idea
+
+# VSCode
+.vscode/settings.json
+
+# Dependencies
+node_modules
+
+# Compiled files
+dist
+deploy
+vs/**/*
+
+package-lock.json
+
+# Node
+npm-debug.log
