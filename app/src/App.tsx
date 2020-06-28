@@ -1,15 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DownloadMap from './components/DownloadMap/DownloadMap';
+import { Download } from './store/download';
 import { useSocket } from './services/socket-service';
 
 function App() {
-
+  const [downloads, setDownloads] = useState<Download[]>([]);
   const socket = useSocket();
 
+
+  async function getAllDownloads() {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const response = await fetch('http://localhost:8080/downloads', {
+      headers,
+      method: "GET",
+      mode: 'cors',
+      cache: 'default'
+    });
+    response.json().then((value) => setDownloads(value));
+  }
+
   useEffect(() => {
-
-
-  });
+    socket.init();
+    const onMessage = socket.onMessage();
+    onMessage.subscribe((download: Download) => {
+      if (!download) {
+        return;
+      }
+      setDownloads((state) => [...state, download]);
+      console.log("foooooooooooooooooooooooooooooooooooo", downloads);
+    });
+    getAllDownloads();
+  }, []);
 
 
   var myHeaders = new Headers();
@@ -27,8 +49,8 @@ function App() {
       body: JSON.stringify({
         app_id: "foo",
         downloaded_at: "bar",
-        latitude: 1234,
-        longitude: 456
+        latitude: Math.floor(1000 + Math.random() * 9000),
+        longitude: Math.floor(1000 + Math.random() * 9000)
       })
     });
     console.log("Post", response);
@@ -36,7 +58,7 @@ function App() {
 
   return (
     <div className="App">
-      <DownloadMap></DownloadMap>
+      <DownloadMap downloads={downloads || []}></DownloadMap>
       <button onClick={addDownload}>add</button>
     </div>
   );

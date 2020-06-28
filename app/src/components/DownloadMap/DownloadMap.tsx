@@ -2,21 +2,15 @@ import React, { useState, useEffect } from "react"
 import { geoEqualEarth, geoPath } from "d3-geo"
 import { feature } from "topojson-client"
 import { FeatureCollection, Feature, Geometry, GeoJsonProperties } from "geojson";
-import { useSocket } from "../../services/socket-service";
 import { Download } from "../../store/download";
 
 const projection = geoEqualEarth()
   .scale(160)
   .translate([960 / 2, 500 / 2])
 
-const DownloadMap: React.FC = () => {
+const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Download[] }) => {
   const [geographies, setGeographies] = useState([] as Feature<Geometry, GeoJsonProperties>[])
-  const [downloads, setDownloads] = useState([
-    { latitude: 48.8566, longitude: 2.3522, downloaded_at: "now", app_id: "id" }
-  ]);
-  const socket = useSocket();
-
-
+  const [downloads, setDownloads] = useState(props.downloads);
   useEffect(() => {
     fetch("/world-110m.json")
       .then(response => {
@@ -27,20 +21,10 @@ const DownloadMap: React.FC = () => {
         response.json().then(worlddata => {
           let mapFeatures = feature(worlddata, worlddata.objects.countries) as unknown as FeatureCollection;
           setGeographies(mapFeatures.features)
-          console.log("fooo", geographies);
         });
-      });
-
-    socket.init();
-    const onMessage = socket.onMessage();
-    onMessage.subscribe((download: Download) => {
-      if(!download){
-        return;
-      }
-      setDownloads([...downloads, download]);
-    });
-
-  }, [])
+      });    
+      setDownloads(props.downloads);
+  }, [props.downloads])
 
   const handleCountryClick = (countryIndex: number) => {
     console.log("Clicked on country: ", geographies[countryIndex])
@@ -69,7 +53,7 @@ const DownloadMap: React.FC = () => {
       </g>
       <g className="markers">
         {
-          downloads.map((download, i) => (
+          (downloads).map((download, i) => (
             <circle
               key={`marker-${i}`}
               cx={projection([download.longitude, download.latitude])![0]}

@@ -5,6 +5,7 @@ import * as cors from "cors";
 import { Download } from "./model/download";
 import { WebsocketMessages } from "./websocket";
 import bodyParser = require("body-parser");
+import * as Datastore from "nedb";
 
 export class DashboardServer {
   public static readonly PORT: number = 8080;
@@ -12,6 +13,7 @@ export class DashboardServer {
   private server: Server;
   private io: SocketIO.Server;
   private port: string | number;
+  private db: Datastore<Download>;
 
   constructor() {
     this._app = express();
@@ -23,6 +25,7 @@ export class DashboardServer {
     this.server = createServer(this._app);
     this.initSocket();
     this.listen();
+    this.db = new Datastore<Download>({ filename: "./db/download.db"});
   }
 
   private initSocket(): void {
@@ -54,8 +57,17 @@ export class DashboardServer {
 
   get app(): express.Application {
     this._app.post("/download", (req, res) => {
-      this.io.emit(WebsocketMessages.NEW_DOWNLOAD, req.body);
-      res.send("Download added");
+      if (req.body && req.body.latitude) {
+        this.db.loadDatabase();
+        this.db.insert(req.body);
+        this.io.emit(WebsocketMessages.NEW_DOWNLOAD, req.body);
+        res.send("Download added");
+      }
+    });
+
+    this._app.get("/downloads", (req, res) => {
+      this.db.loadDatabase();
+      res.send(this.db.getAllData());
     });
     return this._app;
   }
