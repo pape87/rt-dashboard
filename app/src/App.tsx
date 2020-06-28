@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import DownloadMap from './components/DownloadMap/DownloadMap';
+import { useSocket } from './services/socket-service';
 
 function App() {
+
+  const socket = useSocket();
+
+  useEffect(() => {
+
+
+  });
+
+
+  var myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+
+  async function addDownload() {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const response = await fetch('http://localhost:8080/download', {
+      headers,
+      method: "POST",
+      mode: 'cors',
+      cache: 'default',
+      body: JSON.stringify({
+        app_id: "foo",
+        downloaded_at: "bar",
+        latitude: 1234,
+        longitude: 456
+      })
+    });
+    console.log("Post", response);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <DownloadMap></DownloadMap>
+      <button onClick={addDownload}>add</button>
     </div>
   );
 }
