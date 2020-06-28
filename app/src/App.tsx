@@ -3,6 +3,7 @@ import DownloadMap from './components/DownloadMap/DownloadMap';
 import { Download } from './store/download';
 import { useSocket } from './services/socket-service';
 import CountryStats from './components/CountryStats/CountryStats';
+import TimeStats from './components/TimeStats/TimeStats';
 
 function App() {
   const [downloads, setDownloads] = useState<Download[]>([]);
@@ -29,7 +30,6 @@ function App() {
         return;
       }
       setDownloads((state) => [...state, download]);
-      console.log("foooooooooooooooooooooooooooooooooooo", downloads);
     });
     getAllDownloads();
   }, []);
@@ -49,9 +49,9 @@ function App() {
       cache: 'default',
       body: JSON.stringify({
         app_id: "foo",
-        downloaded_at: "bar",
-        latitude: (1000.1 + Math.random() * 9000.0) / 100,
-        longitude: (1000.1 + Math.random() * 9000.0) / 100
+        downloaded_at: new Date().toString(),
+        latitude: (-100.1 + Math.random() * 9000.0) / 100,
+        longitude: (100.1 + Math.random() * 9000.0) / 100
       })
     });
     console.log("Post", response);
@@ -61,6 +61,7 @@ function App() {
     <div className="App">
       <DownloadMap downloads={downloads || []}></DownloadMap>
       <CountryStats downloads={downloads || []}></CountryStats>
+      <TimeStats downloads={downloads || []}></TimeStats>
       <button onClick={addDownload}>add</button>
     </div>
   );
