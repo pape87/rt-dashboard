@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import DownloadMap from './components/DownloadMap/DownloadMap';
 import { Download } from './store/download';
 import { useSocket } from './services/socket-service';
+import CountryStats from './components/CountryStats/CountryStats';
 
 function App() {
   const [downloads, setDownloads] = useState<Download[]>([]);
@@ -59,6 +60,7 @@ function App() {
   return (
     <div className="App">
       <DownloadMap downloads={downloads || []}></DownloadMap>
+      <CountryStats downloads={downloads || []}></CountryStats>
       <button onClick={addDownload}>add</button>
     </div>
   );

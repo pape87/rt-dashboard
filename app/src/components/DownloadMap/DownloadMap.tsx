@@ -9,8 +9,7 @@ const projection = geoEqualEarth()
   .translate([960 / 2, 500 / 2])
 
 const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Download[] }) => {
-  const [geographies, setGeographies] = useState([] as Feature<Geometry, GeoJsonProperties>[])
-  const [downloads, setDownloads] = useState(props.downloads);
+  const [geographies, setGeographies] = useState([] as Feature<Geometry, GeoJsonProperties>[]);
   useEffect(() => {
     fetch("/world-110m.json")
       .then(response => {
@@ -22,8 +21,7 @@ const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Do
           let mapFeatures = feature(worlddata, worlddata.objects.countries) as unknown as FeatureCollection;
           setGeographies(mapFeatures.features)
         });
-      });    
-      setDownloads(props.downloads);
+      });
   }, [props.downloads])
 
   const handleCountryClick = (countryIndex: number) => {
@@ -31,7 +29,7 @@ const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Do
   }
 
   const handleMarkerClick = (i: number) => {
-    console.log("Marker: ", downloads[i])
+    console.log("Marker: ", props.downloads[i])
   }
 
   return (
@@ -53,7 +51,7 @@ const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Do
       </g>
       <g className="markers">
         {
-          (downloads).map((download, i) => (
+          (props.downloads).map((download, i) => (
             <circle
               key={`marker-${i}`}
               cx={projection([download.longitude, download.latitude])![0]}

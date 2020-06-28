@@ -3,4 +3,5 @@ export interface Download {
   longitude: number;
   downloaded_at: string;
   app_id: string;
+  country?: string;
 }
