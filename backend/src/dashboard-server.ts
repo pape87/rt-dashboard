@@ -6,6 +6,7 @@ import { Download } from "./model/download";
 import { WebsocketMessages } from "./websocket";
 import bodyParser = require("body-parser");
 import * as Datastore from "nedb";
+import fetch from "node-fetch";
 
 export class DashboardServer {
   public static readonly PORT: number = 8080;
@@ -25,7 +26,7 @@ export class DashboardServer {
     this.server = createServer(this._app);
     this.initSocket();
     this.listen();
-    this.db = new Datastore<Download>({ filename: "./db/download.db"});
+    this.db = new Datastore<Download>({ filename: "./db/download.db" });
   }
 
   private initSocket(): void {
@@ -58,10 +59,18 @@ export class DashboardServer {
   get app(): express.Application {
     this._app.post("/download", (req, res) => {
       if (req.body && req.body.latitude) {
-        this.db.loadDatabase();
-        this.db.insert(req.body);
-        this.io.emit(WebsocketMessages.NEW_DOWNLOAD, req.body);
-        res.send("Download added");
+        const download: Download = req.body;
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${req.body.latitude}&lon=${req.body.longitude}&format=json`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data?.address?.country) {
+              download.country = data.address.country;
+            }
+            this.db.loadDatabase();
+            this.db.insert(download);
+            this.io.emit(WebsocketMessages.NEW_DOWNLOAD, download);
+            res.send("Download added");
+          });
       }
     });
 

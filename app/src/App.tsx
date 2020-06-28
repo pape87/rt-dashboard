@@ -49,8 +49,8 @@ function App() {
       body: JSON.stringify({
         app_id: "foo",
         downloaded_at: "bar",
-        latitude: Math.floor(1000 + Math.random() * 9000),
-        longitude: Math.floor(1000 + Math.random() * 9000)
+        latitude: (1000.1 + Math.random() * 9000.0) / 100,
+        longitude: (1000.1 + Math.random() * 9000.0) / 100
       })
     });
     console.log("Post", response);
