@@ -3,12 +3,8 @@ import * as socketIo from "socket.io";
 import { createServer, Server } from "http";
 import * as cors from "cors";
 import { Download } from "./model/download";
-
-export enum DashboardEvent {
-  CONNECT = "connect",
-  DISCONNECT = "disconnect",
-  NEW_DOWNLOAD = "new_download"
-}
+import { WebsocketMessages } from "./websocket";
+import bodyParser = require("body-parser");
 
 export class DashboardServer {
   public static readonly PORT: number = 8080;
@@ -22,6 +18,8 @@ export class DashboardServer {
     this.port = process.env.PORT || DashboardServer.PORT;
     this._app.use(cors());
     this._app.options("*", cors());
+    this._app.use(bodyParser.json());
+
     this.server = createServer(this._app);
     this.initSocket();
     this.listen();
@@ -37,17 +35,17 @@ export class DashboardServer {
       console.log("Running server on port %s", this.port);
     });
 
-    this.io.on(DashboardEvent.CONNECT, (socket: any) => {
+    this.io.on(WebsocketMessages.CONNECT, (socket: any) => {
       // tslint:disable-next-line:no-console
       console.log("Connected client on port %s.", this.port);
 
-      socket.on(DashboardEvent.NEW_DOWNLOAD, (d: Download) => {
+      socket.on(WebsocketMessages.NEW_DOWNLOAD, (d: Download) => {
         // tslint:disable-next-line:no-console
         console.log("[server](message): %s", JSON.stringify(d));
-        this.io.emit("message", d);
+        this.io.emit(WebsocketMessages.NEW_DOWNLOAD, d);
       });
 
-      socket.on(DashboardEvent.DISCONNECT, () => {
+      socket.on(WebsocketMessages.DISCONNECT, () => {
         // tslint:disable-next-line:no-console
         console.log("Client disconnected");
       });
@@ -55,6 +53,10 @@ export class DashboardServer {
   }
 
   get app(): express.Application {
+    this._app.post("/download", (req, res) => {
+      this.io.emit(WebsocketMessages.NEW_DOWNLOAD, req.body);
+      res.send("Download added");
+    });
     return this._app;
   }
 }
