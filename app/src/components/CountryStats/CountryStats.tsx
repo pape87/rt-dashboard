@@ -21,9 +21,9 @@ const CountryStats: React.FC<{ downloads: Download[] }> = (props: { downloads: D
   return (
     <StatsContainer>
       <StatsTitle>Countries by Downloads</StatsTitle>
-      <StatsList>
+      <StatsList id="coutry-list">
         {
-          Object.entries(countryDictionary).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => (<StatsListElement key={k}>{k} - {v}</StatsListElement>))
+          Object.entries(countryDictionary).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => (<StatsListElement data-testid="coutry-list-item" key={k}>{k} - {v}</StatsListElement>))
         }
       </StatsList>
     </StatsContainer>
