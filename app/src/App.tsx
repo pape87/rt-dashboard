@@ -52,7 +52,7 @@ function App() {
       mode: 'cors',
       cache: 'default',
       body: JSON.stringify({
-        app_id: "foo",
+        app_id: Math.random() > 0.5 ? "IOS" : "Android",
         downloaded_at: new Date().toUTCString(),
         latitude: (-100.1 + Math.random() * 9000.0) / 100,
         longitude: (100.1 + Math.random() * 9000.0) / 100
@@ -71,9 +71,7 @@ function App() {
       <Container>
         <Styled.HoverButton color="#fe921f" onClick={searchDownloads}>Filter Downloads</Styled.HoverButton>
       </Container>
-      <Container>
-        <DownloadMap downloads={downloads || []}></DownloadMap>
-      </Container>
+      <DownloadMap downloads={downloads || []}></DownloadMap>
       <Container>
         <CountryStats downloads={downloads || []}></CountryStats>
         <TimeStats downloads={downloads || []}></TimeStats>

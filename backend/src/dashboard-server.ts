@@ -65,6 +65,8 @@ export class DashboardServer {
           .then((data) => {
             if (data?.address?.country) {
               download.country = data.address.country;
+            } else {
+              download.country = "Unknown";
             }
             this.db.loadDatabase();
             this.db.insert(download);

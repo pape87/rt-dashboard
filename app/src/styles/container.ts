@@ -28,6 +28,10 @@ export const Container = styled.div`
   }
 `
 
+export const ContainerVertical = styled(Container)`
+  flex-direction: column;
+`
+
 export const StatsContainer = styled.div`
   padding: 10px;
   background-color: #3e4858;
