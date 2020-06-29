@@ -76,7 +76,21 @@ export class DashboardServer {
 
     this._app.get("/downloads", (req, res) => {
       this.db.loadDatabase();
-      res.send(this.db.getAllData());
+      if (req.query.from && req.query.to) {
+        res.send(this.db.getAllData().filter((x: Download) => {
+          const d1 = Date.parse(x.downloaded_at);
+          const d2 = Date.parse(req.query.from as string);
+          const d3 = Date.parse(req.query.to as string);
+          if (d1 > d2
+            && d1 < d3) {
+            return true;
+          }
+          return false;
+        })
+        );
+      } else {
+        res.send(this.db.getAllData());
+      }
     });
     return this._app;
   }
