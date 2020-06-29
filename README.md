@@ -5,7 +5,7 @@ Simple prototype of a dashboard to display on a real time map the positions of a
 ## App
 React application using topojson and d3-geo to display the map
 
-![](https://pasteboard.co/JflFIiv.png)
+![](https://i.ibb.co/xMVzb1z/dashboard.png)
 
 
 ### How to run
@@ -13,6 +13,7 @@ React application using topojson and d3-geo to display the map
 `npm install`
 
 `npm run`
+
 
 ## Backend
 Simple backend express application to test the Dashboard, using socket.io to display data realtime.
@@ -22,3 +23,7 @@ Simple backend express application to test the Dashboard, using socket.io to dis
 `npm install`
 
 `npm run`
+
+
+## docker-compose
+Is possible to run the application using the docker-compose file `docker-compose up` and access the application at `localhost:80`
