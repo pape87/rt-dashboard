@@ -41,7 +41,7 @@ const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Do
               key={`path-${i}`}
               d={geoPath().projection(projection)(d) as string | undefined}
               className="country"
-              fill={`rgba(38,50,56,0.4)`}
+              fill={`rgba(0, 167, 204, ${ 1 / geographies.length * i})`}
               stroke="#FFFFFF"
               strokeWidth={0.5}
               onClick={() => handleCountryClick(i)}
@@ -56,7 +56,7 @@ const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Do
               key={`marker-${i}`}
               cx={projection([download.longitude, download.latitude])![0]}
               cy={projection([download.longitude, download.latitude])![1]}
-              r="4"
+              r="3"
               fill="#E91E63"
               stroke="#FFFFFF"
               className="marker"

@@ -5,6 +5,8 @@ import { useSocket } from './services/socket-service';
 import CountryStats from './components/CountryStats/CountryStats';
 import TimeStats from './components/TimeStats/TimeStats';
 import DateTimeRangeSelector, { DateTimeRange } from './components/DateTimeRangeSelector/DateTimeRangeSelector';
+import { Styled } from './styles/styled';
+import { Container } from './styles/container';
 
 function App() {
   const [downloads, setDownloads] = useState<Download[]>([]);
@@ -64,13 +66,21 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <DownloadMap downloads={downloads || []}></DownloadMap>
-      <CountryStats downloads={downloads || []}></CountryStats>
-      <TimeStats downloads={downloads || []}></TimeStats>
+    <div>
       <DateTimeRangeSelector range={setDateFilter}></DateTimeRangeSelector>
-      <button onClick={searchDownloads}>search downloads</button>
-      <button onClick={addDownload}>add</button>
+      <Container>
+        <Styled.HoverButton color="#fe921f" onClick={searchDownloads}>Filter Downloads</Styled.HoverButton>
+      </Container>
+      <Container>
+        <DownloadMap downloads={downloads || []}></DownloadMap>
+      </Container>
+      <Container>
+        <CountryStats downloads={downloads || []}></CountryStats>
+        <TimeStats downloads={downloads || []}></TimeStats>
+      </Container>
+      <Container>
+        <Styled.HoverButton color="#e91e62" onClick={addDownload}>Add random download</Styled.HoverButton>
+      </Container>
     </div>
   );
 }

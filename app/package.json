@@ -14,6 +14,7 @@
     "@types/react-datepicker": "^3.0.2",
     "@types/react-dom": "^16.9.8",
     "@types/socket.io-client": "^1.4.33",
+    "@types/styled-components": "^5.1.0",
     "@types/topojson-client": "^3.0.0",
     "d3-geo": "^1.12.1",
     "react": "^16.13.1",
@@ -21,6 +22,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "socket.io-client": "^2.3.0",
+    "styled-components": "^5.1.1",
     "topojson-client": "^3.1.0",
     "typescript": "^3.7.5"
   },

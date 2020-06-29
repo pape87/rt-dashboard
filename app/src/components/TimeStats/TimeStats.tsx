@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Download } from '../../store/download';
+import { StatsContainer } from '../../styles/container';
+import { StatsTitle } from '../../styles/label';
+import { StatsList, StatsListElement } from '../../styles/list';
 
 export interface Day {
   morning: number;
@@ -41,14 +44,14 @@ const TimeStats: React.FC<{ downloads: Download[] }> = (props: { downloads: Down
   }, [props.downloads]);
 
   return (
-    <div>
-      <h2>Downloads by time</h2>
-      <ul>
+    <StatsContainer>
+      <StatsTitle>Downloads by Time</StatsTitle>
+      <StatsList>
         {
-          Object.entries(timeStats).sort((a, b) => b[1] - a[1]).map(([k, v]) => (<li key={k}>{k} - {v}</li>))
+          Object.entries(timeStats).sort((a, b) => b[1] - a[1]).map(([k, v]) => (<StatsListElement key={k}>{k} - {v}</StatsListElement>))
         }
-      </ul>
-    </div>
+      </StatsList>
+    </StatsContainer>
   );
 };
 

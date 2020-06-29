@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Download } from '../../store/download';
+import { StatsContainer } from '../../styles/container';
+import { StatsTitle } from '../../styles/label';
+import { StatsList, StatsListElement } from '../../styles/list';
 
 
 const CountryStats: React.FC<{ downloads: Download[] }> = (props: { downloads: Download[] }) => {
@@ -16,14 +19,14 @@ const CountryStats: React.FC<{ downloads: Download[] }> = (props: { downloads: D
   }, [props.downloads]);
 
   return (
-    <div>
-      <h2>Top 5 countries by downloads</h2>
-      <ul>
+    <StatsContainer>
+      <StatsTitle>Countries by Downloads</StatsTitle>
+      <StatsList>
         {
-          Object.entries(countryDictionary).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => (<li key={k}>{k} - {v}</li>))
+          Object.entries(countryDictionary).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => (<StatsListElement key={k}>{k} - {v}</StatsListElement>))
         }
-      </ul>
-    </div>
+      </StatsList>
+    </StatsContainer>
   )
 };
 
