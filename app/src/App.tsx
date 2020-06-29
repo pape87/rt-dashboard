@@ -11,10 +11,11 @@ function App() {
   const [dateFilter, setDateFilter] = useState<DateTimeRange>({} as DateTimeRange);
   const socket = useSocket();
 
-  async function getAllDownloads() {
+  async function getAllDownloads(filter = false) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const response = await fetch('http://localhost:8080/downloads', {
+    const queryString = filter ? `?from=${dateFilter.from.toUTCString()}&to=${dateFilter.to.toUTCString()}` : "";
+    const response = await fetch(`http://localhost:8080/downloads${queryString}`, {
       headers,
       method: "GET",
       mode: 'cors',
@@ -40,24 +41,26 @@ function App() {
   myHeaders.append('Content-Type', 'application/json');
 
   async function addDownload() {
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-    // const response = await fetch('http://localhost:8080/download', {
-    //   headers,
-    //   method: "POST",
-    //   mode: 'cors',
-    //   cache: 'default',
-    //   body: JSON.stringify({
-    //     app_id: "foo",
-    //     downloaded_at: new Date().toString(),
-    //     latitude: (-100.1 + Math.random() * 9000.0) / 100,
-    //     longitude: (100.1 + Math.random() * 9000.0) / 100
-    //   })
-    // });
-    // console.log("Post", response);
+    const response = await fetch('http://localhost:8080/download', {
+      headers,
+      method: "POST",
+      mode: 'cors',
+      cache: 'default',
+      body: JSON.stringify({
+        app_id: "foo",
+        downloaded_at: new Date().toUTCString(),
+        latitude: (-100.1 + Math.random() * 9000.0) / 100,
+        longitude: (100.1 + Math.random() * 9000.0) / 100
+      })
+    });
+    console.log("Post", response);
+  }
 
-    console.log("range", dateFilter);
+  async function searchDownloads() {
+    getAllDownloads(true);
   }
 
   return (
@@ -66,6 +69,7 @@ function App() {
       <CountryStats downloads={downloads || []}></CountryStats>
       <TimeStats downloads={downloads || []}></TimeStats>
       <DateTimeRangeSelector range={setDateFilter}></DateTimeRangeSelector>
+      <button onClick={searchDownloads}>search downloads</button>
       <button onClick={addDownload}>add</button>
     </div>
   );
