@@ -28,12 +28,12 @@ const TimeStats: React.FC<{ downloads: Download[] }> = (props: { downloads: Down
     };
 
     props.downloads.map((x) => {
-      const hours = new Date(x.downloaded_at).getHours();
-      if (hours > 6 && hours < 12) {
+      const hours = new Date(x.downloaded_at).getUTCHours();
+      if (hours >= 6 && hours < 12) {
         d.morning += 1;
-      } else if (hours > 12 && hours < 18) {
+      } else if (hours >= 12 && hours < 18) {
         d.afternoon += 1;
-      } else if (hours > 18 && hours < 24) {
+      } else if (hours >= 18 && hours < 24) {
         d.evening += 1;
       } else {
         d.night += 1;
@@ -48,7 +48,7 @@ const TimeStats: React.FC<{ downloads: Download[] }> = (props: { downloads: Down
       <StatsTitle>Downloads by Time</StatsTitle>
       <StatsList>
         {
-          Object.entries(timeStats).sort((a, b) => b[1] - a[1]).map(([k, v]) => (<StatsListElement key={k}>{k} - {v}</StatsListElement>))
+          Object.entries(timeStats).sort((a, b) => b[1] - a[1]).map(([k, v]) => (<StatsListElement data-testid="time-list-item" key={k}>{k} - {v}</StatsListElement>))
         }
       </StatsList>
     </StatsContainer>
