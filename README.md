@@ -5,7 +5,7 @@ Simple prototype of a dashboard to display on a real time map the positions of a
 ## App
 React application using topojson and d3-geo to display the map
 
-![](https://pasteboard.co/JflFIiv.png | width=200)
+![](https://pasteboard.co/JflFIiv.png)
 
 
 ### How to run
