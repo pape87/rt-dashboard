@@ -24,6 +24,15 @@ Simple backend express application to test the Dashboard, using socket.io to dis
 
 `npm run`
 
+## Go-Backend (WIP)
+Just another api backend written in Go
+
+
+### How to run
+
+`go build`
+
+
 
 ## docker-compose
 Is possible to run the application using the docker-compose file `docker-compose up` and access the application at `localhost:80`
