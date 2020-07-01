@@ -33,3 +33,5 @@ package-lock.json
 npm-debug.log
 
 backend/db
+
+*.exe
