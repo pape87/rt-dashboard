@@ -15,7 +15,7 @@ export class SocketService {
 
   public init(): SocketService {
     console.log('initiating socket service');
-    this.socket = io('localhost:8080');
+    this.socket = io(`${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`);
     return this;
   }
 

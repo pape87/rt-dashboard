@@ -17,7 +17,7 @@ function App() {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     const queryString = filter ? `?from=${dateFilter.from.toUTCString()}&to=${dateFilter.to.toUTCString()}` : "";
-    const response = await fetch(`http://localhost:8080/downloads${queryString}`, {
+    const response = await fetch(`http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/downloads${queryString}`, {
       headers,
       method: "GET",
       mode: 'cors',
@@ -46,7 +46,7 @@ function App() {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    const response = await fetch('http://localhost:8080/download', {
+    const response = await fetch(`http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/download`, {
       headers,
       method: "POST",
       mode: 'cors',
