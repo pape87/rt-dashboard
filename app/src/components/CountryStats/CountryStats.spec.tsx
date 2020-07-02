@@ -23,9 +23,7 @@ describe("The component <CountryStats>", () => {
   it('should display the correct amount of countries', () => {
     const wrapper = render(<CountryStats {...initialProps} />);
     const listItem = wrapper.getAllByTestId("coutry-list-item");
-    expect(listItem.length).toEqual(4);
-    console.log("fooooooooo", listItem[0].innerHTML
-    );
+    expect(listItem.length).toEqual(4);    
   });
 
   it('should display the countries by download in descending order', () => {
