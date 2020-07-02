@@ -5,7 +5,6 @@ import * as cors from "cors";
 import { Download } from "./model/download";
 import { WebsocketMessages } from "./websocket";
 import bodyParser = require("body-parser");
-import fetch from "node-fetch";
 import { inject, injectable } from "inversify";
 import { DownloadService } from "./services/download";
 
@@ -59,16 +58,13 @@ export class DashboardServer {
   }
 
   get app(): express.Application {
-    this._app.post("/download", (req, res) => {
+    this._app.post("/download", async (req, res) => {
       if (req.body && req.body.latitude && req.body.longitude) {
-        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${req.body.latitude}&lon=${req.body.longitude}&format=json`)
-          .then((response) => response.json())
-          .then((data) => {
-            const download: Download = req.body;
-            this.downloadService.addDownload(download, data?.address?.country);
-            this.io.emit(WebsocketMessages.NEW_DOWNLOAD, download);
-            res.send("Download added");
-          });
+        const country = await this.downloadService.getCountry(req.body.latitude, req.body.longitude);
+        const download: Download = req.body;
+        this.downloadService.addDownload(download, country);
+        this.io.emit(WebsocketMessages.NEW_DOWNLOAD, download);
+        res.send("Download added");
       }
     });
 

@@ -1,7 +1,9 @@
 import "reflect-metadata"
 
-import { Download } from "../model/download";
+import fetch from "node-fetch";
 import { injectable, inject } from "inversify";
+
+import { Download } from "../model/download";
 import { NedbService } from "./nedb";
 import { DBStorage } from "../interfaces/storage"
 
@@ -41,5 +43,17 @@ export class DownloadService {
   public addDownload(download: Download, country = "Unknown") {
     download.country = country;
     this.storageService.add(download);
+  }
+
+  /**
+   * Get the country from the given coordinates using the openstreetmap apis
+   *
+   * @param latitude
+   * @param longitude
+   */
+  public async getCountry(latitude: number, longitude: number): Promise<string | undefined> {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+    const body = await response.json();
+    return body?.address?.country;
   }
 }
