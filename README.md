@@ -24,7 +24,15 @@ Simple backend express application to test the Dashboard, using socket.io to dis
 
 `npm run`
 
-## Go-Backend (WIP)
+### Test
+
+`npm run test`
+
+`npm run tdd` execution with --watchmode
+
+
+
+## Go-Backend (Still a work in progress)
 Just another api backend written in Go
 
 
@@ -35,4 +43,4 @@ Just another api backend written in Go
 
 
 ## docker-compose
-Is possible to run the application using the docker-compose file `docker-compose up` and access the application at `localhost:80`
+Is possible to run the application using the docker-compose file `docker-compose up` and access the application at `localhost:3000`
