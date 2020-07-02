@@ -2,6 +2,10 @@
 Simple prototype of a dashboard to display on a real time map the positions of an app downloads.
 
 
+## Prerequisites
+- Node 10.x
+
+
 ## App
 React application using topojson and d3-geo to display the map
 
@@ -28,11 +32,11 @@ Simple backend express application to test the Dashboard, using socket.io to dis
 
 `npm run test`
 
-`npm run tdd` execution with --watchmode
+`npm run tdd` - execution with --watchmode
 
 
 
-## Go-Backend (Still a work in progress)
+## Go-Backend (Still a work in progress/do not consider)
 Just another api backend written in Go
 
 
