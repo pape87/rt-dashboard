@@ -24,7 +24,6 @@ describe("The nedb service", () => {
       } as Download;
       storage.add(download);
 
-      expect((storage as any).db.loadDatabase).toHaveBeenCalled();
       expect((storage as any).db.insert).toHaveBeenCalledWith(download);
     })
   });
@@ -34,7 +33,6 @@ describe("The nedb service", () => {
       const { storage } = arrangeMocks();
       storage.getAll();
 
-      expect((storage as any).db.loadDatabase).toHaveBeenCalled();
       expect((storage as any).db.getAllData).toHaveBeenCalled();
     })
   });
