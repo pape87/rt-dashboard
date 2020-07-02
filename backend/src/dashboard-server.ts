@@ -11,7 +11,7 @@ import { DownloadService } from "./services/download";
 
 @injectable()
 export class DashboardServer {
-  public static readonly PORT: number = 8080;
+  public static readonly PORT: number = 3080;
   private _app: express.Application;
   private server: Server;
   private io: SocketIO.Server;
@@ -21,7 +21,7 @@ export class DashboardServer {
     @inject(DownloadService) private downloadService: DownloadService
   ) {
     this._app = express();
-    this.port = process.env.PORT || DashboardServer.PORT;
+    this.port = DashboardServer.PORT;
     this._app.use(cors());
     this._app.options("*", cors());
     this._app.use(bodyParser.json());

@@ -4,6 +4,6 @@ WORKDIR /app
 COPY package.json /app/package.json
 RUN npm install
 COPY . .
-EXPOSE 8080
+EXPOSE 3080
 RUN npm run build
 CMD [ "node", "./dist/server.js" ]
