@@ -1,3 +1,5 @@
+import "reflect-metadata"
+
 import { injectable } from "inversify";
 import * as Datastore from "nedb";
 import { Download } from "../model/download";
