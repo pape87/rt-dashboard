@@ -7,22 +7,16 @@ import TimeStats from "./components/TimeStats/TimeStats";
 import DateTimeRangeSelector, { DateTimeRange } from "./components/DateTimeRangeSelector/DateTimeRangeSelector";
 import { Styled } from "./styles/styled";
 import { Container } from "./styles/container";
+import { addRandomDownload, getAllDownloads } from "./services/download";
 
 function App() {
   const [downloads, setDownloads] = useState<Download[]>([]);
   const [dateFilter, setDateFilter] = useState<DateTimeRange>({} as DateTimeRange);
   const socket = useSocket();
 
-  async function getAllDownloads(filter = false) {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    const queryString = filter ? `?from=${dateFilter.from.toUTCString()}&to=${dateFilter.to.toUTCString()}` : "";
-    const response = await fetch(`http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/downloads${queryString}`, {
-      headers,
-      method: "GET",
-      mode: "cors",
-      cache: "default"
-    });
+  async function getDownloads(filter = false) {
+    const range = filter ? { from: dateFilter.from, to: dateFilter.to }: undefined;
+    const response = await getAllDownloads(range);
     response.json().then((value) => setDownloads(value));
   }
 
@@ -35,7 +29,7 @@ function App() {
       }
       setDownloads((state) => [...state, download]);
     });
-    getAllDownloads();
+    getDownloads();
   }, []);
 
 
@@ -43,25 +37,11 @@ function App() {
   myHeaders.append("Content-Type", "application/json");
 
   async function addDownload() {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    const response = await fetch(`http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/download`, {
-      headers,
-      method: "POST",
-      mode: "cors",
-      cache: "default",
-      body: JSON.stringify({
-        app_id: Math.random() > 0.5 ? "IOS" : "Android",
-        downloaded_at: new Date().toUTCString(),
-        latitude: (-100.1 + Math.random() * 9000.0) / 100,
-        longitude: (100.1 + Math.random() * 9000.0) / 100
-      })
-    });
+    await addRandomDownload();
   }
 
   async function searchDownloads() {
-    getAllDownloads(true);
+    getDownloads(true);
   }
 
   return (
