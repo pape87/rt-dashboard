@@ -1,23 +1,23 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StatsList = styled.ul`
-  counter-reset: index;  
+  counter-reset: index;
   padding: 0;
   max-width: 300px;
 `
 
 export const StatsListElement = styled.li`
-  counter-increment: index; 
+  counter-increment: index;
   display: flex;
   align-items: center;
   padding: 3px 0;
   box-sizing: border-box;
 
-  color: #ffffff; 
-  font-family: 'Lucida Sans', Arial, sans-serif; 
-  font-size: 16px; 
-  line-height: 26px; 
-  text-indent: 30px; 
+  color: #ffffff;
+  font-family: 'Lucida Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+  text-indent: 30px;
 
   &:before {
   content: counters(index, ".", decimal-leading-zero);

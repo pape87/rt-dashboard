@@ -17,23 +17,19 @@ const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Do
     fetch("/world-110m.json")
       .then(response => {
         if (response.status !== 200) {
+          // tslint:disable-next-line:no-console
           console.log(`There was a problem: ${response.status}`)
           return
         }
         response.json().then(worlddata => {
-          let mapFeatures = feature(worlddata, worlddata.objects.countries) as unknown as FeatureCollection;
+          const mapFeatures = feature(worlddata, worlddata.objects.countries) as unknown as FeatureCollection;
           setGeographies(mapFeatures.features)
         });
       });
   }, [props.downloads])
 
-  const handleCountryClick = (countryIndex: number) => {
-    console.log("Clicked on country: ", geographies[countryIndex])
-  }
-
   const handleMarkerClick = (i: number) => {
     setDownload(props.downloads[i]);
-    console.log("Marker: ", props.downloads[i])
   }
 
   return (
@@ -53,18 +49,17 @@ const DownloadMap: React.FC<{ downloads: Download[] }> = (props: { downloads: Do
                   fill={`rgba(0, 167, 204, ${1 / geographies.length * i})`}
                   stroke="#FFFFFF"
                   strokeWidth={0.5}
-                  onClick={() => handleCountryClick(i)}
                 />
               ))
             }
           </g>
           <g className="markers">
             {
-              (props.downloads).map((download, i) => (
+              (props.downloads).map((dl, i) => (
                 <circle
                   key={`marker-${i}`}
-                  cx={projection([download.longitude, download.latitude])![0]}
-                  cy={projection([download.longitude, download.latitude])![1]}
+                  cx={projection([dl.longitude, dl.latitude])![0]}
+                  cy={projection([dl.longitude, dl.latitude])![1]}
                   r="3"
                   fill="#E91E63"
                   stroke="#FFFFFF"

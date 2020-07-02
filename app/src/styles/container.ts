@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   background-color: #1c2329;
@@ -7,7 +7,7 @@ export const Container = styled.div`
   max-width: 960px;
   margin: 0 auto;
   padding: 10px 20px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -18,7 +18,7 @@ export const Container = styled.div`
   }
 
   @media (min-width: 550px) {
-    width: 80%; 
+    width: 80%;
   }
 
   &:after {

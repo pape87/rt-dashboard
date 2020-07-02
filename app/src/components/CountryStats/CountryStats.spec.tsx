@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import CountryStats from "./CountryStats";
-import { Download } from '../../store/download';
-import { render } from '@testing-library/react';
+import { Download } from "../../store/download";
+import { render } from "@testing-library/react";
 
 
 describe("The component <CountryStats>", () => {
@@ -20,13 +20,13 @@ describe("The component <CountryStats>", () => {
     ]
   }
 
-  it('should display the correct amount of countries', () => {
+  it("should display the correct amount of countries", () => {
     const wrapper = render(<CountryStats {...initialProps} />);
     const listItem = wrapper.getAllByTestId("coutry-list-item");
-    expect(listItem.length).toEqual(4);    
+    expect(listItem.length).toEqual(4);
   });
 
-  it('should display the countries by download in descending order', () => {
+  it("should display the countries by download in descending order", () => {
     const wrapper = render(<CountryStats {...initialProps} />);
     const listItem = wrapper.getAllByTestId("coutry-list-item");
     expect(listItem[0].innerHTML).toEqual("Spain - 4");

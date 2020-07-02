@@ -1,12 +1,12 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Label = styled.label`
   margin: 0 5px;
-  color: #adb7bd; 
-  font-family: 'Lucida Sans', Arial, sans-serif; 
-  font-size: 16px; 
-  line-height: 26px; 
-  text-indent: 30px; 
+  color: #adb7bd;
+  font-family: 'Lucida Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+  text-indent: 30px;
 `
 export const StatsTitle = styled.h2`
   color: #ffffff;

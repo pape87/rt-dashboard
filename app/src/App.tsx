@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import DownloadMap from './components/DownloadMap/DownloadMap';
-import { Download } from './store/download';
-import { useSocket } from './services/socket-service';
-import CountryStats from './components/CountryStats/CountryStats';
-import TimeStats from './components/TimeStats/TimeStats';
-import DateTimeRangeSelector, { DateTimeRange } from './components/DateTimeRangeSelector/DateTimeRangeSelector';
-import { Styled } from './styles/styled';
-import { Container } from './styles/container';
+import React, { useEffect, useRef, useState } from "react";
+import DownloadMap from "./components/DownloadMap/DownloadMap";
+import { Download } from "./store/download";
+import { useSocket } from "./services/socket-service";
+import CountryStats from "./components/CountryStats/CountryStats";
+import TimeStats from "./components/TimeStats/TimeStats";
+import DateTimeRangeSelector, { DateTimeRange } from "./components/DateTimeRangeSelector/DateTimeRangeSelector";
+import { Styled } from "./styles/styled";
+import { Container } from "./styles/container";
 
 function App() {
   const [downloads, setDownloads] = useState<Download[]>([]);
@@ -15,13 +15,13 @@ function App() {
 
   async function getAllDownloads(filter = false) {
     const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    headers.append("Content-Type", "application/json");
     const queryString = filter ? `?from=${dateFilter.from.toUTCString()}&to=${dateFilter.to.toUTCString()}` : "";
     const response = await fetch(`http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/downloads${queryString}`, {
       headers,
       method: "GET",
-      mode: 'cors',
-      cache: 'default'
+      mode: "cors",
+      cache: "default"
     });
     response.json().then((value) => setDownloads(value));
   }
@@ -39,18 +39,18 @@ function App() {
   }, []);
 
 
-  var myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
 
   async function addDownload() {
     const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    headers.append("Content-Type", "application/json");
 
     const response = await fetch(`http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/download`, {
       headers,
       method: "POST",
-      mode: 'cors',
-      cache: 'default',
+      mode: "cors",
+      cache: "default",
       body: JSON.stringify({
         app_id: Math.random() > 0.5 ? "IOS" : "Android",
         downloaded_at: new Date().toUTCString(),
@@ -58,7 +58,6 @@ function App() {
         longitude: (100.1 + Math.random() * 9000.0) / 100
       })
     });
-    console.log("Post", response);
   }
 
   async function searchDownloads() {

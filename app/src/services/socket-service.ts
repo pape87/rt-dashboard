@@ -1,6 +1,6 @@
-import { createContext, useContext } from 'react';
-import { fromEvent, Observable } from 'rxjs';
-import io from 'socket.io-client';
+import { createContext, useContext } from "react";
+import { fromEvent, Observable } from "rxjs";
+import io from "socket.io-client";
 
 import { Download } from "../store/download";
 
@@ -14,13 +14,15 @@ export class SocketService {
   private socket: SocketIOClient.Socket = {} as SocketIOClient.Socket;
 
   public init(): SocketService {
-    console.log('initiating socket service');
+    // tslint:disable-next-line:no-console
+    console.log("initiating socket service");
     this.socket = io(`${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`);
     return this;
   }
 
   public send(download: Download): void {
-    console.log('emitting message: ' + download);
+    // tslint:disable-next-line:no-console
+    console.log("emitting message: " + download);
     this.socket.emit(WebsocketMessages.NEW_DOWNLOAD, download);
   }
 
