@@ -5,18 +5,21 @@ import * as cors from "cors";
 import { Download } from "./model/download";
 import { WebsocketMessages } from "./websocket";
 import bodyParser = require("body-parser");
-import * as Datastore from "nedb";
 import fetch from "node-fetch";
+import { inject, injectable } from "inversify";
+import { DownloadService } from "./services/download";
 
+@injectable()
 export class DashboardServer {
   public static readonly PORT: number = 8080;
   private _app: express.Application;
   private server: Server;
   private io: SocketIO.Server;
   private port: string | number;
-  private db: Datastore<Download>;
 
-  constructor() {
+  constructor(
+    @inject(DownloadService) private downloadService: DownloadService
+  ) {
     this._app = express();
     this.port = process.env.PORT || DashboardServer.PORT;
     this._app.use(cors());
@@ -26,7 +29,6 @@ export class DashboardServer {
     this.server = createServer(this._app);
     this.initSocket();
     this.listen();
-    this.db = new Datastore<Download>({ filename: "./db/download.db" });
   }
 
   private initSocket(): void {
@@ -58,18 +60,12 @@ export class DashboardServer {
 
   get app(): express.Application {
     this._app.post("/download", (req, res) => {
-      if (req.body && req.body.latitude) {
-        const download: Download = req.body;
+      if (req.body && req.body.latitude && req.body.longitude) {
         fetch(`https://nominatim.openstreetmap.org/reverse?lat=${req.body.latitude}&lon=${req.body.longitude}&format=json`)
           .then((response) => response.json())
           .then((data) => {
-            if (data?.address?.country) {
-              download.country = data.address.country;
-            } else {
-              download.country = "Unknown";
-            }
-            this.db.loadDatabase();
-            this.db.insert(download);
+            const download: Download = req.body;
+            this.downloadService.addDownload(download, data?.address?.country);
             this.io.emit(WebsocketMessages.NEW_DOWNLOAD, download);
             res.send("Download added");
           });
@@ -77,22 +73,8 @@ export class DashboardServer {
     });
 
     this._app.get("/downloads", (req, res) => {
-      this.db.loadDatabase();
-      if (req.query.from && req.query.to) {
-        res.send(this.db.getAllData().filter((x: Download) => {
-          const d1 = Date.parse(x.downloaded_at);
-          const d2 = Date.parse(req.query.from as string);
-          const d3 = Date.parse(req.query.to as string);
-          if (d1 > d2
-            && d1 < d3) {
-            return true;
-          }
-          return false;
-        })
-        );
-      } else {
-        res.send(this.db.getAllData());
-      }
+      const range = req.query.from && req.query.to ? { from: req.query.from as string, to: req.query.to as string } : undefined;
+      res.send(this.downloadService.getDownloads(range));
     });
     return this._app;
   }
