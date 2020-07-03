@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Download } from '../../store/download';
-import { StatsContainer } from '../../styles/container';
-import { StatsTitle } from '../../styles/label';
-import { StatsList, StatsListElement } from '../../styles/list';
+import React, { useState, useEffect } from "react";
+import { Download } from "../../store/download";
+import { StatsContainer } from "../../styles/container";
+import { StatsTitle } from "../../styles/label";
+import { StatsList, StatsListElement } from "../../styles/list";
 
 export interface Day {
   morning: number;
@@ -20,7 +20,7 @@ const TimeStats: React.FC<{ downloads: Download[] }> = (props: { downloads: Down
   });
 
   useEffect(() => {
-    let d: Day = {
+    const d: Day = {
       afternoon: 0,
       evening: 0,
       morning: 0,

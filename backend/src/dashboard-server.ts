@@ -1,4 +1,6 @@
 import * as express from "express";
+import { body, validationResult } from "express-validator";
+
 import * as socketIo from "socket.io";
 import { createServer, Server } from "http";
 import * as cors from "cors";
@@ -58,7 +60,17 @@ export class DashboardServer {
   }
 
   get app(): express.Application {
-    this._app.post("/download", async (req, res) => {
+    this._app.post("/download", [
+      body("latitude").exists().isNumeric(),
+      body("longitude").exists().isNumeric(),
+      body("downloaded_at").exists().isISO8601(),
+      body("app_id").exists().isLength({ min: 1 }),
+    ], async (req: any, res: any) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
+
       if (req.body && req.body.latitude && req.body.longitude) {
         const country = await this.downloadService.getCountry(req.body.latitude, req.body.longitude);
         const download: Download = req.body;
