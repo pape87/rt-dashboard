@@ -55,7 +55,7 @@ Simple backend express application to test the Dashboard, using socket.io to dis
 
   `longitude=[number]`
 
-  `downloaded_at=[ISO8601 Date format]`
+  `downloaded_at=[ISO8601 Date format] (eg. "2020-07-03T13:08:35Z")`
 
 
 **Get downloads**
