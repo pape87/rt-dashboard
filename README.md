@@ -34,6 +34,48 @@ Simple backend express application to test the Dashboard, using socket.io to dis
 
 `npm run tdd` - execution with --watchmode
 
+### API
+**Add download**
+
+* **URL**
+
+  /download
+
+* **METHOD**
+
+  `POST`
+
+* **Data Params**
+
+  **Required:**
+  
+  `app_id=[string]`
+
+  `latitude=[number]`
+
+  `longitude=[number]`
+
+  `downloaded_at=[ISO8601 Date format]`
+
+
+**Get downloads**
+
+* **URL**
+
+  /downloads
+
+* **METHOD**
+
+  `GET`
+
+* **URL Params**
+
+  **Optional:**
+  
+  `from=[ISO8601 Date format]`
+
+  `to=[ISO8601 Date format]`
+
 
 
 ## Go-Backend (Still a work in progress/do not consider)
