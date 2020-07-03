@@ -18,9 +18,12 @@ React application using topojson and d3-geo to display the map
 
 `npm run`
 
+### docker-compose
+Is possible to run the app and the Node backend using the docker-compose file `docker-compose up` and access the application at `localhost:3000`.
+
 
 ## Backend
-Simple backend express application to test the Dashboard, using socket.io to display data realtime.
+Simple backend Node application to test the Dashboard, using express for the api and socket.io to display data realtime.
 
 ### How to run
 
@@ -78,15 +81,9 @@ Simple backend express application to test the Dashboard, using socket.io to dis
 
 
 
-## Go-Backend (Still a work in progress/do not consider)
-Just another api backend written in Go
+## Go-Backend (Still a work in progress)
+Just another api backend written in Go using MongoDB as storage
 
+### Development
+To setup the dev environment is possible to use the docker-compose file present in the folder.
 
-### How to run
-
-`go build`
-
-
-
-## docker-compose
-Is possible to run the application using the docker-compose file `docker-compose up` and access the application at `localhost:3000`
