@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   go-backend:
-    build: ./src
+    build: ./
     container_name: go-backend
     depends_on:
       - 'mongo'
@@ -10,7 +10,7 @@ services:
     ports:
       - '8000:8000'
     volumes:
-      - './src:/opt/go-backend:cached'
+      - '.:/go/src/rt-dashboard/go-backend:cached'
   mongo:
     image: 'mongo:4.2.6-bionic'
     container_name: mongo
