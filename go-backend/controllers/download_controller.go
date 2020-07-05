@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"rt-dashboard/go-backend/model"
 	"rt-dashboard/go-backend/services"
@@ -45,10 +48,28 @@ func (ctl *downloadController) AddDownload(c *gin.Context) {
 	}
 
 	download := model.Download{AppId: input.AppId, Latitude: input.Latitude, Longitude: input.Longitude, DownloadedAt: input.DownloadedAt}
+	download.Country = getCountry(download.Latitude, download.Longitude)
+
 	if _, err := ctl.downloadService.AddDownload(&download); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": download})
+}
+
+func getCountry(latitude float64, longitude float64) string {
+	response, err := http.Get(fmt.Sprintf(`https://nominatim.openstreetmap.org/reverse?lat=%v&lon=%v&format=json`, latitude, longitude))
+	if err == nil {
+		body, _ := ioutil.ReadAll(response.Body)
+		var data map[string]interface{}
+		err := json.Unmarshal([]byte(body), &data)
+		if err != nil {
+			panic(err)
+		}
+		address := data["address"].(map[string]interface{})
+		return fmt.Sprintf("%v", address["country"])
+	}
+
+	return "Unknown"
 }
