@@ -8,7 +8,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// Repo Interface
 type DownloadRepo interface {
 	AddDownload(download *model.Download) (*model.Download, error)
 }
@@ -17,7 +16,6 @@ type downloadRepo struct {
 	db *mongo.Client
 }
 
-// NewBookRepo will instantiate Book Repository
 func NewDownloadRepo(db *mongo.Client) DownloadRepo {
 	return &downloadRepo{
 		db: db,

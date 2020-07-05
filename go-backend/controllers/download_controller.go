@@ -26,7 +26,6 @@ type AddDownloadInput struct {
 	DownloadedAt string  `json:"downloaded_at" binding:"required"`
 }
 
-// BookController interface
 type DownloadController interface {
 	AddDownload(*gin.Context)
 }
@@ -35,7 +34,6 @@ type downloadController struct {
 	downloadService services.DownloadService
 }
 
-// NewBookController instantiates Book Controller
 func NewDownloadController(d services.DownloadService) DownloadController {
 	return &downloadController{downloadService: d}
 }
