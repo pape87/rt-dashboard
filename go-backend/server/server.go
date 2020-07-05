@@ -35,5 +35,6 @@ func Run() {
 		})
 	})
 	r.POST("/download", downloadController.AddDownload)
+	r.GET("/downloads", downloadController.GetDownloads)
 	r.Run()
 }

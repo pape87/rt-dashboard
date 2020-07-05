@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"rt-dashboard/go-backend/model"
 	"rt-dashboard/go-backend/services"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +29,7 @@ type AddDownloadInput struct {
 
 type DownloadController interface {
 	AddDownload(*gin.Context)
+	GetDownloads(*gin.Context)
 }
 
 type downloadController struct {
@@ -45,7 +47,8 @@ func (ctl *downloadController) AddDownload(c *gin.Context) {
 		return
 	}
 
-	download := model.Download{AppId: input.AppId, Latitude: input.Latitude, Longitude: input.Longitude, DownloadedAt: input.DownloadedAt}
+	date, _ := time.Parse(time.RFC3339, input.DownloadedAt)
+	download := model.Download{AppId: input.AppId, Latitude: input.Latitude, Longitude: input.Longitude, DownloadedAt: date}
 	download.Country = getCountry(download.Latitude, download.Longitude)
 
 	if _, err := ctl.downloadService.AddDownload(&download); err != nil {
@@ -54,6 +57,19 @@ func (ctl *downloadController) AddDownload(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": download})
+}
+
+func (ctl *downloadController) GetDownloads(c *gin.Context) {
+	fromDate, _ := time.Parse(time.RFC3339, c.Request.URL.Query().Get("from"))
+	toDate, _ := time.Parse(time.RFC3339, c.Request.URL.Query().Get("to"))
+
+	results, err := ctl.downloadService.GetDonwloads(fromDate, toDate)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": results})
 }
 
 func getCountry(latitude float64, longitude float64) string {
