@@ -8,6 +8,6 @@ import (
 
 func main() {
 	fmt.Println("Rest API v2.0")
-	server.Server()
+	server.Run()
 
 }
