@@ -81,8 +81,9 @@ Simple backend Node application to test the Dashboard, using express for the api
 
 
 
-## Go-Backend (Still a work in progress)
-Just another api backend written in Go using MongoDB as storage
+## Go-Backend (still missing socket comunication for the real time map update)
+Just another api backend written in Go using MongoDB as storage.
+
 
 ### Development
 To setup the dev environment is possible to use the docker-compose file present in the folder.
