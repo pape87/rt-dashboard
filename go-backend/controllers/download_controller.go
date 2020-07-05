@@ -69,7 +69,7 @@ func (ctl *downloadController) GetDownloads(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": results})
+	c.JSON(http.StatusOK, results)
 }
 
 func getCountry(latitude float64, longitude float64) string {

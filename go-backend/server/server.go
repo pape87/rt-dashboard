@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -17,7 +18,7 @@ import (
 func Run() {
 	fmt.Println("fooooooooooooooooo")
 	r := gin.Default()
-
+	r.Use(cors.Default())
 	clientOptions := options.Client().ApplyURI("mongodb://mongo:27017")
 	mongoDB, err := mongo.Connect(context.Background(), clientOptions)
 
